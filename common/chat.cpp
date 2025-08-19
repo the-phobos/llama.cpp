@@ -55,7 +55,6 @@ json common_chat_msg::to_json_oaicompat() const
     };
     if (!reasoning_content.empty()) {
         message["reasoning_content"] = reasoning_content;
-        message["reasoning"] = reasoning_content;
     }
     if (content.empty() && !tool_calls.empty()) {
         message["content"] = json();
@@ -240,9 +239,6 @@ std::vector<common_chat_msg> common_chat_msgs_parse_oaicompat(const json & messa
             if (message.contains("reasoning_content")) {
                 msg.reasoning_content = message.at("reasoning_content");
             }
-            if (message.contains("reasoning")) {
-                msg.reasoning_content = message.at("reasoning");
-            }
             if (message.contains("name")) {
                 msg.tool_name = message.at("name");
             }
@@ -400,7 +396,6 @@ template <> json common_chat_msg_diff_to_json_oaicompat(const common_chat_msg_di
     json delta = json::object();
     if (!diff.reasoning_content_delta.empty()) {
         delta["reasoning_content"] = diff.reasoning_content_delta;
-        delta["reasoning"] = diff.reasoning_content_delta;
     }
     if (!diff.content_delta.empty()) {
         delta["content"] = diff.content_delta;
